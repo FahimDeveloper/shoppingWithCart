@@ -41,19 +41,17 @@ const showProducts = (data, search) => {
                 </div>
                 <div class="card-footer">
                     <a class="btn btn-outline-secondary detailsCart" onclick="productDetails(${id})" data-bs-toggle="modal" data-bs-target="#exampleModal">Details</a>
-                    <a class="btn btn-primary addToCart" onclick="cartDetails('${price}','${id}')" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions">Add to cart</a>
+                    <a id="${id + 2}" class="btn btn-primary" onclick="cartDetails('${price}','${id}')" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions">Add to cart</a>
                 </div>
             </div>
         `
         contain.appendChild(div);
+        const addToCart = document.getElementById(`${id + 2}`);
+        addToCart.addEventListener("click", function () {
+            addToCart.classList.add("disabled")
+        });
     });
     loading(false)
-    const addToCart = document.getElementsByClassName("addToCart");
-    for (const cart of addToCart) {
-        cart.addEventListener("click", function () {
-            cart.classList.add("disabled");
-        })
-    }
 }
 const productDetails = (id) => {
     fetch(`https://fakestoreapi.com/products/${id}`)
@@ -115,6 +113,8 @@ const addCart = (data, price, id) => {
     for (const close of cartClose) {
         close.addEventListener("click", function () {
             close.parentNode.parentNode.parentNode.parentNode.parentNode.style.display = "none";
+            const addToCart = document.getElementById(parseInt(id) + 2);
+            addToCart.classList.remove("disabled")
         })
     }
 }

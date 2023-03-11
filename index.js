@@ -41,12 +41,12 @@ const showProducts = (data, search) => {
                 </div>
                 <div class="card-footer">
                     <a class="btn btn-outline-secondary detailsCart" onclick="productDetails(${id})" data-bs-toggle="modal" data-bs-target="#exampleModal">Details</a>
-                    <a id="${id + 2}" class="btn btn-primary" onclick="cartDetails('${price}','${id}')" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions">Add to cart</a>
+                    <a id="${id + 100}" class="btn btn-primary" onclick="cartDetails('${price}','${id}')" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions">Add to cart</a>
                 </div>
             </div>
         `
         contain.appendChild(div);
-        const addToCart = document.getElementById(`${id + 2}`);
+        const addToCart = document.getElementById(`${id + 100}`);
         addToCart.addEventListener("click", function () {
             addToCart.classList.add("disabled")
         });
@@ -93,7 +93,7 @@ const addCart = (data, price, id) => {
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
                         <h6 class="card-title">${title.slice(0, 25)}...</h6>
-                        <button type="button" class="btn-close closeCart"></button>
+                        <button onclick="closeBtn(${data.id})" type="button" class="btn-close closeCart"></button>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
                         <p class="card-text">$ <span id="${id + 1}">${price}</span></p>
@@ -113,10 +113,12 @@ const addCart = (data, price, id) => {
     for (const close of cartClose) {
         close.addEventListener("click", function () {
             close.parentNode.parentNode.parentNode.parentNode.parentNode.style.display = "none";
-            const addToCart = document.getElementById(parseInt(id) + 2);
-            addToCart.classList.remove("disabled")
         })
     }
+}
+const closeBtn = (id) => {
+    const addToCart = document.getElementById(parseInt(id) + 100);
+    addToCart.classList.remove("disabled");
 }
 const increase = (id, price) => {
     const productPrice = parseFloat(price);

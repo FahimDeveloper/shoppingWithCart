@@ -83,31 +83,32 @@ const cartDetails = (price, id) => {
 const addCart = (data, price, id) => {
     const { image, title } = data;
     const cartBody = document.getElementById("cart-body");
-    cartBody.innerHTML += `
-        <div class="card mb-3 cart-item">
-            <div class="row g-0 align-items-center">
-              <div class="col-2">
-                <img src="${image}" class="cart-image rounded-start" alt="...">
-              </div>
-              <div class="col-10">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h6 class="card-title">${title.slice(0, 25)}...</h6>
-                        <button onclick="closeBtn(${data.id})" type="button" class="btn-close closeCart"></button>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <p class="card-text">$ <span id="${id + 200}">${price}</span></p>
-                        <div class="d-flex align-items-center">
-                            <button onclick="decrease('${id}','${price}')" id="decrease" class="btn btn-default countBtn"><i class="fas fa-minus"></i></button>
-                            <input id="${id}" type="number" class="counter form-control text-center" value="1">
-                            <button onclick="increase('${id}','${price}')" id="increase" class="btn btn-default countBtn"><i class="fas fa-plus"></i></button>
-                        </div>
+    const div = document.createElement("div");
+    div.classList.add("card", "mb-3", "cart-item")
+    div.innerHTML += `
+        <div class="row g-0 align-items-center">
+          <div class="col-2">
+            <img src="${image}" class="cart-image rounded-start" alt="...">
+          </div>
+          <div class="col-10">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h6 class="card-title">${title.slice(0, 25)}...</h6>
+                    <button onclick="closeBtn(${id})" type="button" class="btn-close closeCart"></button>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
+                    <p class="card-text">$ <span id="${id + 200}">${price}</span></p>
+                    <div class="d-flex align-items-center">
+                        <button onclick="decrease('${id}','${price}')" id="decrease" class="btn btn-default countBtn"><i class="fas fa-minus"></i></button>
+                        <input id="${id}" type="number" class="counter form-control text-center" min="1" value="1">
+                        <button onclick="increase('${id}','${price}')" id="increase" class="btn btn-default countBtn"><i class="fas fa-plus"></i></button>
                     </div>
                 </div>
-              </div>
             </div>
+          </div>
         </div>
     `;
+    cartBody.appendChild(div);
     priceUpdate(price);
     const cartClose = document.getElementsByClassName("closeCart");
     for (const close of cartClose) {
@@ -123,6 +124,7 @@ const closeBtn = (id) => {
 const increase = (id, price) => {
     const productPrice = parseFloat(price);
     const quantity = updateProducts(true, id);
+    console.log(quantity);
     increasesProductPrice(quantity, id + 200, productPrice);
 }
 const decrease = (id, price) => {

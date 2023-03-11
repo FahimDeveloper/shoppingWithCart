@@ -94,7 +94,7 @@ const addCart = (data, price, id) => {
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
                     <h6 class="card-title">${title.slice(0, 25)}...</h6>
-                    <button onclick="closeBtn(${id})" type="button" class="btn-close closeCart"></button>
+                    <button id="${id + 300}" onclick="closeBtn(${id})" type="button" class="btn-close closeCart"></button>
                 </div>
                 <div class="d-flex justify-content-between align-items-center">
                     <p class="card-text">$ <span id="${id + 200}">${price}</span></p>
@@ -110,12 +110,19 @@ const addCart = (data, price, id) => {
     `;
     cartBody.appendChild(div);
     priceUpdate(price);
-    const cartClose = document.getElementsByClassName("closeCart");
-    for (const close of cartClose) {
-        close.addEventListener("click", function () {
-            close.parentNode.parentNode.parentNode.parentNode.parentNode.style.display = "none";
-        })
-    }
+    const close = document.getElementById(id + 300);
+    close.addEventListener("click", function () {
+        const productPrice = getInnerText(id + 200);
+        const totalPrice = getInnerText("total");
+        const finalPrice = totalPrice - productPrice;
+        setInnerText("total", finalPrice.toFixed(2));
+        close.parentNode.parentNode.parentNode.parentNode.parentNode.style.display = "none";
+    })
+}
+const getInnerText = (id) => {
+    const textStr = document.getElementById(id).innerText;
+    const textNumber = parseFloat(textStr);
+    return textNumber;
 }
 const closeBtn = (id) => {
     const addToCart = document.getElementById(parseInt(id) + 100);
@@ -150,12 +157,12 @@ const updateProducts = (isIncrease, inputField) => {
     return newQuantity;
 }
 const setInnerText = (id, value) => {
-    document.getElementById(id).innerText = parseFloat(value).toFixed(2);
+    document.getElementById(id).innerText = parseFloat(value);
 }
 const increasesProductPrice = (quantity, id, price) => {
     const finalPrice = quantity * price;
     updateTotal(price, true);
-    setInnerText(id, finalPrice);
+    setInnerText(id, finalPrice.toFixed(2));
 }
 
 const decreasesProductPrice = (quantity, id, price) => {
@@ -205,17 +212,17 @@ const priceUpdate = (price) => {
     const previousPrice = document.getElementById("total").innerText;
     const prices = parseFloat(previousPrice);
     const productPrice = prices + parseFloat(price);
-    setInnerText("total", productPrice)
+    setInnerText("total", productPrice.toFixed(2))
 }
 const updateTotal = (newPrice, status) => {
     const previousPrice = document.getElementById("total").innerText;
     const prices = parseFloat(previousPrice);
     if (status === true) {
         const newTotalPrice = prices + newPrice;
-        setInnerText("total", newTotalPrice);
+        setInnerText("total", newTotalPrice.toFixed(2));
     } else {
         const newTotalPrice = prices - newPrice;
-        setInnerText("total", newTotalPrice);
+        setInnerText("total", newTotalPrice.toFixed(2));
     }
 }
 fetchProduct();

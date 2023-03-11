@@ -96,7 +96,7 @@ const addCart = (data, price, id) => {
                         <button onclick="closeBtn(${data.id})" type="button" class="btn-close closeCart"></button>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
-                        <p class="card-text">$ <span id="${id + 1}">${price}</span></p>
+                        <p class="card-text">$ <span id="${id + 200}">${price}</span></p>
                         <div class="d-flex align-items-center">
                             <button onclick="decrease('${id}','${price}')" id="decrease" class="btn btn-default countBtn"><i class="fas fa-minus"></i></button>
                             <input id="${id}" type="number" class="counter form-control text-center" value="1">
@@ -123,12 +123,12 @@ const closeBtn = (id) => {
 const increase = (id, price) => {
     const productPrice = parseFloat(price);
     const quantity = updateProducts(true, id);
-    increasesProductPrice(quantity, id + 1, productPrice);
+    increasesProductPrice(quantity, id + 200, productPrice);
 }
 const decrease = (id, price) => {
     const productPrice = price;
     const quantity = updateProducts(false, id);
-    decreasesProductPrice(quantity, id + 1, productPrice);
+    decreasesProductPrice(quantity, id + 200, productPrice);
 }
 const updateProducts = (isIncrease, inputField) => {
     const countField = document.getElementById(inputField);
